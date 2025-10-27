@@ -1,4 +1,4 @@
-import { IExerciseRepository } from '../domain/repositories/IExerciseRepository';
+import { IExerciseRepository } from '../domain/repositories/IExerciseRepositoy';
 import { IRoutineRepository } from '../domain/repositories/IRoutineRepository';
 
 export class ExerciseService {
