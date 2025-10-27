@@ -1,4 +1,4 @@
-import { IExerciseRepository } from '../../domain/repositories/IExerciseRepository';
+import { IExerciseRepository } from '../../domain/repositories/IExerciseRepositoy';
 import { Exercise } from '../database/models/exercise.model';
 import { AppDataSource } from '../database/data_source';
 import { Repository } from 'typeorm';
