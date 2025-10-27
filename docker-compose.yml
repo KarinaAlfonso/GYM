@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gym_routines
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - gym_net
+
+  routine-service:
+    build: ./routine-service
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=gym_routines
+      - PORT=4002
+    ports:
+      - "4002:4002"
+    depends_on:
+      - mysql
+    networks:
+      - gym_net
+
+networks:
+  gym_net:
+    driver: bridge
+
+volumes:
+  mysql-data:
