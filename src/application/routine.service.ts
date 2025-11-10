@@ -4,7 +4,6 @@ export class RoutineService {
   constructor(private routineRepo: IRoutineRepository) {}
 
   async createRoutine(payload: any) {
-    // validaciones de dominio (edad, peso, tipo)
     if (!payload.userId) throw { status: 400, message: 'userId is required' };
     return await this.routineRepo.create(payload);
   }

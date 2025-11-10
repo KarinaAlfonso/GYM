@@ -1,29 +1,36 @@
 version: '3.9'
+
 services:
-  mysql:
-    image: mysql:8
+  postgres:
+    image: postgres:15
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: gym_routines
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gym_routines
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts/init_postgres.sql:/docker-entrypoint-initdb.d/init_postgres.sql:ro
     networks:
       - gym_net
 
   routine-service:
-    build: ./routine-service
+    build: .
+    container_name: routine_service
     environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=root
-      - DB_NAME=gym_routines
-      - PORT=4002
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: gym_routines
+      PORT: 4002
+      NODE_ENV: production
     ports:
       - "4002:4002"
     depends_on:
-      - mysql
+      - postgres
     networks:
       - gym_net
 
@@ -32,4 +39,4 @@ networks:
     driver: bridge
 
 volumes:
-  mysql-data:
+  pgdata:
