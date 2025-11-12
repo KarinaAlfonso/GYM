@@ -3,7 +3,7 @@ import { Exercise } from './exercise.entity';
 
 export class RoutineExercise {
   constructor(
-    public id: number,
+    public routineId: number,
     public exercise: Exercise,
     public sets: number,
     public reps: number,

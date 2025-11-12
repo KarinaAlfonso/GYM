@@ -11,7 +11,14 @@ export class ExerciseRepositoryImpl implements IExerciseRepository {
   }
 
   private toDomain(m: ExerciseModel): Exercise {
-    return new Exercise(m.id, m.name, m.muscle_group ?? '', m.description ?? undefined);
+    return new Exercise(
+      m.id,
+      m.name,
+      m.muscle_group ?? '',
+      m.description ?? undefined,
+      m.equipment ?? null,
+      m.calories_burned_avg != null ? parseFloat(String(m.calories_burned_avg)) : null
+    );
   }
 
   async create(exercise: Partial<Exercise>) {

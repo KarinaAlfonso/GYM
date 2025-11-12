@@ -14,13 +14,14 @@ export class RoutineExerciseService {
     return await this.repo.save(entity);
   }
 
-  async removeExercise(id: number) {
-    await this.repo.delete({ id });
+  async removeExercise(keys: { routineId: number; exerciseId: number }) {
+    // routine_exercises uses a composite primary key (routineId + exerciseId)
+    await this.repo.delete({ routineId: keys.routineId, exerciseId: keys.exerciseId });
   }
 
   async getExercisesByRoutine(routineId: number) {
     return await this.repo.find({
-      where: { routine: { id: routineId } },
+      where: { routineId: routineId },
       relations: ['exercise'],
     });
   }

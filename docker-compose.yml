@@ -12,6 +12,11 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init-scripts/init_postgres.sql:/docker-entrypoint-initdb.d/init_postgres.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d gym_routines"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - gym_net
 
@@ -29,6 +34,7 @@ services:
       NODE_ENV: production
     ports:
       - "4002:4002"
+    restart: on-failure
     depends_on:
       - postgres
     networks:

@@ -69,10 +69,35 @@ export class RoutineRepositoryImpl implements IRoutineRepository {
   private toDomain(r: Routine): RoutineDomain {
     const exercises = (r.exercises || []).map(re => {
   const exModel: Exercise | undefined = (re as any).exercise;
-  const exDomain = exModel ? new ExerciseDomain(exModel.id, exModel.name, exModel.muscle_group ?? '', exModel.description ?? undefined) : undefined as any;
-  return new RoutineExerciseDomain((re as any).exerciseId ?? 0, exDomain as any, (re as any).sets, (re as any).reps, (re as any).weight ?? null, (re as any).orderInRoutine ?? (re as any).order_in_routine ?? null);
+  const exDomain = exModel ? new ExerciseDomain(
+    exModel.id,
+    exModel.name,
+    exModel.muscle_group ?? '',
+    exModel.description ?? undefined,
+    exModel.equipment ?? null,
+    exModel.calories_burned_avg != null ? parseFloat(String(exModel.calories_burned_avg)) : null
+  ) : undefined as any;
+  return new RoutineExerciseDomain(
+    (re as any).exerciseId ?? 0,
+    exDomain as any,
+    (re as any).sets,
+    (re as any).reps,
+    (re as any).weight != null ? parseFloat(String((re as any).weight)) : null,
+    (re as any).orderInRoutine ?? (re as any).order_in_routine ?? null
+  );
     });
 
-    return new RoutineDomain(r.id, r.userId, r.name, r.durationWeeks, r.type as any, exercises as any, r.createdAt);
+    return new RoutineDomain(
+      r.id,
+      r.userId,
+      r.name,
+      r.durationWeeks,
+      r.type as any,
+      exercises as any,
+      r.createdAt,
+      r.trainerId ?? null,
+      r.goal ?? null,
+      r.status ?? null
+    );
   }
 }

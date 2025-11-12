@@ -6,16 +6,20 @@ import { Routine as RoutineModel } from '../database/models/routine.model';
 export class RoutineMapper {
   static toDomain(model: RoutineModel): Routine {
     const exercises = model.exercises?.map(re => new RoutineExercise(
-      re.id,
+      re.routineId,
       new Exercise(
         re.exercise.id,
         re.exercise.name,
-        re.exercise.muscle_group,
-        re.exercise.description
+        re.exercise.muscle_group ?? null,
+        re.exercise.description ?? null,
+        re.exercise.equipment ?? null,
+        // convert decimal string to number if necessary
+        typeof re.exercise.calories_burned_avg === 'string' ? Number(re.exercise.calories_burned_avg) : (re.exercise.calories_burned_avg ?? null)
       ),
       re.sets,
       re.reps,
-      re.weight,
+      // convert decimal string to number for weight
+      typeof re.weight === 'string' ? Number(re.weight) : (re.weight ?? null),
       re.orderInRoutine
     )) ?? [];
 

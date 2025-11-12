@@ -9,6 +9,9 @@ export class Routine {
     public durationWeeks: number,
     public type: 'fuerza' | 'cardio' | 'mixto',
     public exercises: RoutineExercise[] = [],
-    public createdAt?: Date
+    public createdAt?: Date,
+    public trainerId?: number | null,
+    public goal?: string | null,
+    public status?: string | null
   ) {}
 }
